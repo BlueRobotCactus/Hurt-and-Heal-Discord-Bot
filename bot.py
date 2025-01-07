@@ -28,7 +28,9 @@ cooldown_time = timedelta(seconds=1)  # Set cooldown period
 
 @bot.event
 async def on_ready():
-    print(f"Logged in as {bot.user}!")
+    """Triggered when the bot is ready."""
+    print(f"Logged in as {bot.user.name}", flush=True)
+    print(f"Bot is connected to {len(bot.guilds)} server(s).", flush=True)
 
 @bot.command()
 async def status(ctx):
