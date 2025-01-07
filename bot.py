@@ -37,7 +37,7 @@ async def status(ctx):
     """Show the current status of all characters."""
     status_message = "Current HP of characters:\n"
     for character, hp in characters.items():
-        status_message += f"- {character}: {hp} HP\n"
+        status_message += f"- **{character}**: {hp} HP\n"
     await ctx.send(status_message)
 
 @bot.command()
@@ -53,10 +53,10 @@ async def hurtheal(ctx, hurt_character: str, heal_character: str):
 
     # Validate characters
     if hurt_character not in characters:
-        await ctx.send(f"{hurt_character} is not a valid character!")
+        await ctx.send(f"**{hurt_character}** is not a valid character!")
         return
     if heal_character not in characters:
-        await ctx.send(f"{heal_character} is not a valid character!")
+        await ctx.send(f"**{heal_character}** is not a valid character!")
         return
     if hurt_character == heal_character:
         await ctx.send("You cannot hurt and heal the same character!")
@@ -69,13 +69,13 @@ async def hurtheal(ctx, hurt_character: str, heal_character: str):
 
     # Check for elimination
     if characters[hurt_character] == 0:
-        await ctx.send(f"{hurt_character} has been eliminated!")
+        await ctx.send(f"**{hurt_character}** has been eliminated!")
 
     # Set cooldown
     cooldowns[user] = datetime.now() + cooldown_time
 
     # Send update
-    await ctx.send(f"{user.display_name} hurt {hurt_character} and healed {heal_character}!")
+    await ctx.send(f"**{user.display_name}** hurt **{hurt_character}** and healed **{heal_character}**!")
     await status(ctx)
 
 @bot.command()
