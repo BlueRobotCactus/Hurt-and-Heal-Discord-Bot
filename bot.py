@@ -5,15 +5,24 @@ from dotenv import load_dotenv
 import discord
 from discord.ext import commands
 
-# Bot setup
+# Load environment variables from the .env file
+load_dotenv()
+
+# Access the bot token from the .env file
+TOKEN = os.getenv("DISCORD_TOKEN")
+
+# Create bot instance
 intents = discord.Intents.default()
-intents.messages = True
-intents.message_content = True
+intents.message_content = True # Required to read text commands
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# Variables
+# Game Variables
 max_hp = 10
-characters = {"Character1": max_hp, "Character2": max_hp, "Character3": max_hp}  # Replace with your fandom characters
+characters = {
+    "Character1": max_hp,
+    "Character2": max_hp,
+    "Character3": max_hp
+}
 cooldowns = {}  # Store user cooldowns
 cooldown_time = timedelta(seconds=1)  # Set cooldown period
 
@@ -52,7 +61,7 @@ async def hurtheal(ctx, hurt_character: str, heal_character: str):
         return
 
     # Update HP
-    if characters[hurt_character] > 0:  # Only allow hurting if character is not eliminated
+    if characters[hurt_character] > 0:  # Only hurt if character isn't eliminated
         characters[hurt_character] -= 1
     characters[heal_character] += 1
 
@@ -84,5 +93,4 @@ async def reset_error(ctx, error):
         await ctx.send("You do not have permission to reset the game!")
 
 # Run the bot
-load_dotenv()
-bot.run(os.getenv("DISCORD_TOKEN"))
+bot.run(TOKEN)
