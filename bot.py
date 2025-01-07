@@ -68,6 +68,7 @@ async def hurtheal(ctx, hurt_character: str, heal_character: str):
     await status(ctx)
 
 @bot.command()
+@commands.has_role("Game Master")  # Must have "Game Master" role to reset the game
 async def reset(ctx):
     """Reset the game."""
     global characters, cooldowns
@@ -75,6 +76,12 @@ async def reset(ctx):
     cooldowns = {}  # Clear cooldowns
     await ctx.send("The game has been reset!")
     await status(ctx)
+
+@reset.error
+async def reset_error(ctx, error):
+    """Handle errors for the reset command."""
+    if isinstance(error, commands.MissingRole):
+        await ctx.send("You do not have permission to reset the game!")
 
 # Run the bot
 load_dotenv()
