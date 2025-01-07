@@ -12,9 +12,10 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Variables
-characters = {"Character1": 10, "Character2": 10, "Character3": 10}  # Replace with your fandom characters
+max_hp = 10
+characters = {"Character1": max_hp, "Character2": max_hp, "Character3": max_hp}  # Replace with your fandom characters
 cooldowns = {}  # Store user cooldowns
-cooldown_time = timedelta(seconds=1)  # Set cooldown period (e.g., 30 seconds)
+cooldown_time = timedelta(seconds=1)  # Set cooldown period
 
 @bot.event
 async def on_ready():
@@ -70,7 +71,7 @@ async def hurtheal(ctx, hurt_character: str, heal_character: str):
 async def reset(ctx):
     """Reset the game."""
     global characters, cooldowns
-    characters = {key: 25 for key in characters.keys()}  # Reset characters' HP to 25
+    characters = {key: max_hp for key in characters.keys()}  # Reset characters' HP
     cooldowns = {}  # Clear cooldowns
     await ctx.send("The game has been reset!")
     await status(ctx)
